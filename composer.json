@@ -16,17 +16,12 @@
         "tailwindcss",
         "information-management"
     ],
-    "homepage": "https://github.com/illocean/auto-repair-shop-management-system",
     "authors": [
         {
             "name": "Kim Phillip G. Andador",
-            "email": "andadorkimphillipg@gmail.com",
-            "homepage": "https://github.com/illocean"
+            "email": "andadorkimphillipg@gmail.com"
         }
     ],
-    "support": {
-        "issues": "https://github.com/illocean/auto-repair-shop-management-system/issues"
-    },
     "license": "MIT",
     "require": {
         "php": "^8.3",
