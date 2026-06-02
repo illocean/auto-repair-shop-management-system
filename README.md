@@ -392,7 +392,7 @@ Per the case study wording, the following rules are baked into the controllers a
 
 ```bash
 # 1. Clone
-git clone https://github.com/pandadoor/auto-repair-shop-management-system.git
+git clone https://github.com/illocean/auto-repair-shop-management-system.git
 cd auto-repair-shop-management-system
 
 # 2. Install PHP dependencies

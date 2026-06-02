@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "pandadoor/auto-repair-shop-management-system",
+    "name": "illocean/auto-repair-shop-management-system",
     "type": "project",
     "description": "A Laravel 13 + MySQL web application for an automobile repair shop — customers, vehicles, service catalog, multi-service repair orders, role-based access control, and real-time audit trail. Built for the Information Management Individual Project No. 3 case study.",
     "keywords": [
@@ -16,15 +16,16 @@
         "tailwindcss",
         "information-management"
     ],
-    "homepage": "https://github.com/pandadoor/auto-repair-shop-management-system",
+    "homepage": "https://github.com/illocean/auto-repair-shop-management-system",
     "authors": [
         {
-            "name": "pandadoor",
-            "homepage": "https://github.com/pandadoor"
+            "name": "Kim Phillip G. Andador",
+            "email": "andadorkimphillipg@gmail.com",
+            "homepage": "https://github.com/illocean"
         }
     ],
     "support": {
-        "issues": "https://github.com/pandadoor/auto-repair-shop-management-system/issues"
+        "issues": "https://github.com/illocean/auto-repair-shop-management-system/issues"
     },
     "license": "MIT",
     "require": {
