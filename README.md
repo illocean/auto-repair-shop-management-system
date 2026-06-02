@@ -27,7 +27,7 @@
 
 > *"You are designing a database for an automobile repair shop. When a customer brings in a vehicle, a service advisor will write up a repair order. This order will identify the customer and the vehicle, along with the date of service and the name of the advisor. A vehicle might need several different types of service in a single visit. These could include oil change, lubrication, rotate tires, and so on. Each type of service is billed at a pre-determined number of hours work, regardless of the actual time spent by the technician. Each type of service also has a flat book rate of dollars-per-hour that is charged."*
 
-The original brief is preserved at `docs/instruction.txt`. The full project paper lives at `docs/IM-INDIVIDUAL_PROJECT_NO3.pdf`.
+The original brief is preserved at `docs/instruction.txt`. The original brief has been preserved verbatim in the full project paper at `docs/IM-INDIVIDUAL_PROJECT_NO3.pdf`.
 
 ---
 
@@ -294,7 +294,6 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 │   ├── drawio.xml
 │   ├── IM-INDIVIDUAL_PROJECT_NO3.docx
 │   ├── IM-INDIVIDUAL_PROJECT_NO3.pdf
-│   ├── instruction.txt                    # Case study and course brief
 │   └── logical.png
 ├── public/
 │   ├── build/                             # Compiled Vite assets
@@ -408,7 +407,6 @@ Change all default credentials before deploying to production.
 
 | Document | Path |
 |----------|------|
-| Course brief (case study and requirements) | `docs/instruction.txt` |
 | Full project paper (PDF) | `docs/IM-INDIVIDUAL_PROJECT_NO3.pdf` |
 | Full project paper (DOCX) | `docs/IM-INDIVIDUAL_PROJECT_NO3.docx` |
 | Database design (DrawIO) | `docs/auto-repair-shop-db-design.drawio` |
