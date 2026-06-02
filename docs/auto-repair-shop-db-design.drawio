@@ -1,0 +1,290 @@
+<mxfile host="app.diagrams.net" modified="2026-05-26T14:45:00.000Z" agent="Claude" version="24.7.17">
+  <diagram id="conceptual" name="Conceptual Design">
+    <mxGraphModel dx="1434" dy="759" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="t1" value="Conceptual Design - Automobile Repair Shop" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontColor=#1ba1e2;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="10" width="440" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="c1" value="Customer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c2" value="Vehicle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="400" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c3" value="Service Advisor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="180" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c4" value="Repair Order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="300" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c5" value="Service Type" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="400" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c6" value="Line Item" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="400" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="l1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=ERone;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="c1" target="c2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="l2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="c1" target="c4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="l3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="c2" target="c4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="l4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="c3" target="c4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="l5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="c4" target="c6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="l6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="c5" target="c6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg1" value="Legend" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="520" width="140" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg2" value="1 -- One (single line)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="540" width="180" height="16" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg3" value="* -- Many (crow's foot)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="556" width="180" height="16" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="logical" name="Logical Design">
+    <mxGraphModel dx="1434" dy="759" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="t2" value="Logical Design - Automobile Repair Shop" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontColor=#1ba1e2;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="10" width="440" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lo1" value="Customer" style="swimlane;html=1;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="180" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo1a" value="CustomerID (PK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontStyle=4;" vertex="1" parent="lo1">
+          <mxGeometry x="0" y="30" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo1b" value="Name" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo1">
+          <mxGeometry x="0" y="48" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo1c" value="Phone" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo1">
+          <mxGeometry x="0" y="66" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo1d" value="Address" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo1">
+          <mxGeometry x="0" y="84" width="180" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lo2" value="Vehicle" style="swimlane;html=1;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="310" width="180" height="156" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo2a" value="VehicleID (PK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontStyle=4;" vertex="1" parent="lo2">
+          <mxGeometry x="0" y="30" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo2b" value="CustomerID (FK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="lo2">
+          <mxGeometry x="0" y="48" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo2c" value="Make" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo2">
+          <mxGeometry x="0" y="66" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo2d" value="Model" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo2">
+          <mxGeometry x="0" y="84" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo2e" value="Year" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo2">
+          <mxGeometry x="0" y="102" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo2f" value="LicensePlate" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo2">
+          <mxGeometry x="0" y="120" width="180" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lo3" value="Service Advisor" style="swimlane;html=1;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="100" width="180" height="84" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo3a" value="AdvisorID (PK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontStyle=4;" vertex="1" parent="lo3">
+          <mxGeometry x="0" y="30" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo3b" value="Name" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo3">
+          <mxGeometry x="0" y="48" width="180" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lo4" value="Repair Order" style="swimlane;html=1;startSize=30;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="180" height="138" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo4a" value="OrderID (PK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontStyle=4;" vertex="1" parent="lo4">
+          <mxGeometry x="0" y="30" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo4b" value="CustomerID (FK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="lo4">
+          <mxGeometry x="0" y="48" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo4c" value="VehicleID (FK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="lo4">
+          <mxGeometry x="0" y="66" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo4d" value="AdvisorID (FK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="lo4">
+          <mxGeometry x="0" y="84" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo4e" value="DateOfService" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo4">
+          <mxGeometry x="0" y="102" width="180" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lo5" value="Line Item" style="swimlane;html=1;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="320" width="180" height="102" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo5a" value="LineItemID (PK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontStyle=4;" vertex="1" parent="lo5">
+          <mxGeometry x="0" y="30" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo5b" value="OrderID (FK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="lo5">
+          <mxGeometry x="0" y="48" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo5c" value="ServiceTypeID (FK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="lo5">
+          <mxGeometry x="0" y="66" width="180" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lo6" value="Service Type" style="swimlane;html=1;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="320" width="180" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo6a" value="ServiceTypeID (PK)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontStyle=4;" vertex="1" parent="lo6">
+          <mxGeometry x="0" y="30" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo6b" value="TypeName" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo6">
+          <mxGeometry x="0" y="48" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo6c" value="BookRateHours" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo6">
+          <mxGeometry x="0" y="66" width="180" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="lo6d" value="RatePerHour" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="lo6">
+          <mxGeometry x="0" y="84" width="180" height="18" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="physical" name="Physical Design - 4NF">
+    <mxGraphModel dx="1434" dy="759" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="t3" value="Physical Design (4NF) - Automobile Repair Shop" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontColor=#1ba1e2;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="10" width="440" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p1" value="Customer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1a" value="CustomerID     INT  PK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1b" value="Name           VARCHAR(100)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="128" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1c" value="Phone          VARCHAR(20)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="146" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1d" value="Address        VARCHAR(200)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="164" width="220" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p2" value="Vehicle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="230" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2a" value="VehicleID      INT  PK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2b" value="CustomerID     INT  FK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="278" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2c" value="Make           VARCHAR(50)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="296" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2d" value="Model          VARCHAR(50)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="314" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e" value="Year           YEAR" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="332" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2f" value="LicensePlate   VARCHAR(20)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="350" width="220" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p3" value="Service Advisor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="80" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3a" value="AdvisorID      INT  PK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="110" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3b" value="Name           VARCHAR(100)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="128" width="220" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p4" value="Repair Order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="80" width="230" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4a" value="OrderID        INT  PK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="110" width="230" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4b" value="CustomerID     INT  FK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="380" y="128" width="230" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4c" value="VehicleID      INT  FK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="380" y="146" width="230" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4d" value="AdvisorID      INT  FK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="380" y="164" width="230" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e" value="DateOfService  DATE" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="182" width="230" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p5" value="Line Item" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="290" width="230" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5a" value="LineItemID     INT  PK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="320" width="230" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5b" value="OrderID        INT  FK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="380" y="338" width="230" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5c" value="ServiceTypeID  INT  FK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="380" y="356" width="230" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p6" value="Service Type" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="290" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6a" value="ServiceTypeID  INT  PK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="320" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6b" value="TypeName       VARCHAR(100)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="338" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6c" value="BookRateHours  DECIMAL(5,2)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="356" width="220" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6d" value="RatePerHour    DECIMAL(8,2)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="374" width="220" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="norm1" value="4NF Compliance:" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#1ba1e2;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="200" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="norm2" value="1NF: All attributes are atomic" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="445" width="280" height="16" as="geometry"/>
+        </mxCell>
+        <mxCell id="norm3" value="2NF: No partial dependencies on composite PK" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="463" width="320" height="16" as="geometry"/>
+        </mxCell>
+        <mxCell id="norm4" value="3NF: No transitive dependencies" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="481" width="280" height="16" as="geometry"/>
+        </mxCell>
+        <mxCell id="norm5" value="4NF: M:N resolved via Line Item associative entity" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="499" width="360" height="16" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

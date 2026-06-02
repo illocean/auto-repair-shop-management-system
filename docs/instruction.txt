@@ -1,0 +1,20 @@
+PLEASE VALIDATE AND VERIFY WHETHER YOU ACTUALLY FOLLOWED THIS CASE STUDY INTO MAKING THE BUSINESS RULES/WORKFLOW AND THE WEB PROJECT ITSELF: 
+
+FOR CONTEXT THIS IS MY CASE STUDY:
+" You are designing a database for an automobile repair shop. When a customer brings in a vehicle, a service advisor will write up a repair order. This order will identify the customer and the vehicle, along with the date of service and the name of the advisor. A vehicle might need several different types of service in a single visit. These could include oil change, lubrication, rotate tires, and so on. Each type of service is billed at a pre-determined number of hours work, regardless of the actual time spent by the technician. Each type of service also has a flat book rate of dollars-per-hour that is charged."
+
+
+FOR CONTEXT, THIS IS THE GIVEN INSTRUCTIONS FOR US:
+"# INFORMATION MANAGEMENT:
+#### Requirements:
+5. Must use a MySQL database  
+	1. Will be integrated with PHP-Laravel (collection)  
+	   - Any frontend may be used  
+	   - Everything must still use MySQL  
+	
+	1. Must have an application with the following functionalities:  
+	   a. Login form with authentication  
+	   b. Landing page with maintenance modules (CRUD) for employee and maintenance records  
+	   c. Additional features may be added if necessary  
+	   d. Audit trail  
+	   e. Role permissions "
