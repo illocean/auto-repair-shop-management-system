@@ -409,6 +409,7 @@ Change all default credentials before deploying to production.
 |----------|------|
 | Full project paper (PDF) | `docs/IM-INDIVIDUAL_PROJECT_NO3.pdf` |
 | Full project paper (DOCX) | `docs/IM-INDIVIDUAL_PROJECT_NO3.docx` |
+| Database walkthrough (Markdown) | `docs/database-walkthrough.md` |
 | Database design (DrawIO) | `docs/auto-repair-shop-db-design.drawio` |
 | Architecture diagram (DrawIO) | `docs/ERD MODELS/architecture.drawio` |
 | Database schema (DrawIO) | `docs/ERD MODELS/database-schema.drawio` |
