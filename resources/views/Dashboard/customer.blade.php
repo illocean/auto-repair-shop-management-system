@@ -1,95 +1,123 @@
 @extends('Template.main')
-
+@section('title', 'My Dashboard')
 @section('content')
-<div class="container-max py-8">
-    <h1 class="page-title">My Dashboard</h1>
+<div class="page-index">
+
+    {{-- Header --}}
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">My Dashboard</h1>
+            <p class="text-xs text-slate-500 mt-1">
+                <i data-lucide="calendar" class="inline w-3 h-3 align-middle"></i>
+                {{ now()->format('l, F j, Y') }}
+            </p>
+        </div>
+    </div>
 
     @if(session('success'))
-        <div class="alert-success mb-6">{{ session('success') }}</div>
+        <div class="alert-success">{{ session('success') }}</div>
     @endif
 
-    {{-- Vehicles --}}
-    <div class="card mb-8">
-        <div class="card-header">
-            <h2 class="card-title">My Vehicles</h2>
+    {{-- MY VEHICLES -- compact registry list --}}
+    <div class="section-heading">
+        <i data-lucide="truck"></i>
+        <h2>My Vehicles</h2>
+    </div>
+
+    @if($vehicles->isEmpty())
+        <div class="border border-slate-200 rounded-lg bg-white overflow-hidden mb-6">
+            <div class="td-empty">
+                <i data-lucide="truck" class="inline w-5 h-5 text-slate-300 mb-2 block mx-auto"></i>
+                No vehicles registered.
+            </div>
         </div>
-        <div class="card-body p-0">
-            @if($vehicles->isEmpty())
-                <p class="text-gray-500 text-sm p-6">No vehicles registered.</p>
-            @else
-                <table class="table-base">
+    @else
+        <div class="border border-slate-200 rounded-lg bg-white overflow-hidden mb-6">
+            <div class="overflow-x-auto">
+                <table class="table-workbench">
                     <thead>
-                        <tr class="bg-gray-50 text-left">
-                            <th class="th-cell">Make</th>
-                            <th class="th-cell">Model</th>
-                            <th class="th-cell">Year</th>
-                            <th class="th-cell">License Plate</th>
+                        <tr>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Year</th>
+                            <th>License Plate</th>
                         </tr>
                     </thead>
-                    <tbody class="tbody-divide">
+                    <tbody>
                         @foreach ($vehicles as $v)
-                            <tr class="tr-hover">
-                                <td class="td-primary">{{ $v->make }}</td>
-                                <td class="td-primary">{{ $v->model }}</td>
-                                <td class="td-secondary">{{ $v->year }}</td>
-                                <td class="td-secondary">{{ $v->license_plate ?? '—' }}</td>
+                            <tr>
+                                <td class="td-primary"><i data-lucide="car" class="inline w-3.5 h-3.5 text-slate-400 align-middle mr-1.5"></i>{{ $v->make }}</td>
+                                <td>{{ $v->model }}</td>
+                                <td class="text-slate-500">{{ $v->year }}</td>
+                                <td class="td-mono text-slate-500">{{ $v->license_plate ?? '—' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            @endif
+            </div>
         </div>
+    @endif
+
+    {{-- REPAIR ORDERS -- timeline with status dots --}}
+    <div class="section-heading">
+        <i data-lucide="clipboard-list"></i>
+        <h2>Repair Orders</h2>
     </div>
 
-    {{-- Repair Orders --}}
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Repair Orders</h2>
+    @if($orders->isEmpty())
+        <div class="border border-slate-200 rounded-lg bg-white overflow-hidden">
+            <div class="td-empty">
+                <i data-lucide="clipboard-list" class="inline w-5 h-5 text-slate-300 mb-2 block mx-auto"></i>
+                No repair orders yet.
+            </div>
         </div>
-        <div class="card-body p-0">
-            @if($orders->isEmpty())
-                <p class="text-gray-500 text-sm p-6">No repair orders yet.</p>
-            @else
-                <table class="table-base">
-                    <thead>
-                        <tr class="bg-gray-50 text-left">
-                            <th class="th-cell">Date</th>
-                            <th class="th-cell">Vehicle</th>
-                            <th class="th-cell">Status</th>
-                            <th class="th-cell">Services</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody-divide">
-                        @foreach ($orders as $o)
-                            @php
-                                $sColors = [
-                                    'open'        => ['row' => 'tr-row-yellow', 'border' => 'td-border-yellow'],
-                                    'in_progress' => ['row' => 'tr-row-gray',   'border' => 'td-border-gray'],
-                                    'completed'   => ['row' => 'tr-row-green',  'border' => 'td-border-green'],
-                                    'cancelled'   => ['row' => 'tr-row-red',    'border' => 'td-border-red'],
-                                ];
-                                $sc = $sColors[$o->status] ?? ['row' => '', 'border' => ''];
-                            @endphp
-                            <tr class="tr-hover {{ $sc['row'] }}">
-                                <td class="td-secondary whitespace-nowrap {{ $sc['border'] }}">{{ $o->order_date }}</td>
-                                <td class="td-primary">{{ $o->make }} {{ $o->model }} ({{ $o->license_plate ?? '—' }})</td>
-                                <td class="td-cell">
+    @else
+        <div class="border border-slate-200 rounded-lg bg-white overflow-hidden">
+            <div class="timeline-list px-3">
+                @foreach ($orders as $o)
+                    <div class="timeline-item">
+                        <span class="timeline-dot
+                            @if($o->status === 'completed') timeline-dot-completed
+                            @elseif($o->status === 'cancelled') timeline-dot-scheduled
+                            @else timeline-dot-confirmed @endif">
+                            @if($o->status === 'completed')
+                                <i data-lucide="check"></i>
+                            @elseif($o->status === 'cancelled')
+                                <i data-lucide="x"></i>
+                            @elseif($o->status === 'in_progress')
+                                <i data-lucide="cog"></i>
+                            @else
+                                <i data-lucide="clock"></i>
+                            @endif
+                        </span>
+                        <div class="timeline-body">
+                            <div class="timeline-row">
+                                <span class="timeline-time">{{ $o->order_date }}</span>
+                                <span class="timeline-customer">{{ $o->make }} {{ $o->model }}</span>
+                                <a href="{{ route('repair-orders.show', $o->id) }}" class="toolbar-item" style="padding:0.125rem 0.375rem">
+                                    <i data-lucide="eye"></i>
+                                </a>
+                            </div>
+                            <div class="timeline-row">
+                                <span class="timeline-vehicle">{{ $o->license_plate ?? '—' }}</span>
+                                <span>
                                     <span class="badge-pill
                                         @if($o->status === 'completed') badge-green
                                         @elseif($o->status === 'cancelled') badge-red
-                                        @else badge-gray @endif">
+                                        @elseif($o->status === 'in_progress') badge-gray
+                                        @else badge-yellow @endif">
+                                        <svg class="status-dot w-3 h-3" fill="currentColor" viewBox="0 0 8 8">
+                                            <circle cx="4" cy="4" r="3"/>
+                                        </svg>
                                         {{ ucfirst(str_replace('_', ' ', $o->status)) }}
                                     </span>
-                                </td>
-                                <td class="td-cell">
-                                    <a href="{{ route('repair-orders.show', $o->id) }}" class="link">View</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @endif
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 @endsection

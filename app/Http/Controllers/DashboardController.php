@@ -49,15 +49,24 @@ class DashboardController extends Controller
 
     private function staffDashboard()
     {
-        $customerCount = 0; $vehicleCount = 0; $openOrders = 0; $completedOrders = 0; $recentOrders = collect();
+        $customerCount = 0; $vehicleCount = 0; $openOrders = 0; $completedOrders = 0;
+        $appointmentCount = 0; $supplyCount = 0; $lowStockCount = 0; $totalRevenue = 0;
+        $recentOrders = collect(); $upcomingAppointments = collect();
         try {
             Log::debug("=================== staff dashboard ===================");
             $customerCount = DB::table('customers')->count();
             $vehicleCount = DB::table('vehicles')->count();
             $openOrders = DB::table('repair_orders')->whereIn('status', ['open', 'in_progress'])->count();
             $completedOrders = DB::table('repair_orders')->where('status', 'completed')->count();
+            $appointmentCount = DB::table('appointments')->whereNotIn('status', ['cancelled'])->count();
+            $supplyCount = DB::table('supplies')->count();
+            $lowStockCount = DB::table('supplies')->whereColumn('quantity', '<=', 'low_stock_threshold')->count();
+            $totalRevenue = DB::table('repair_order_services')
+                ->join('repair_orders', 'repair_order_services.repair_order_id', 'repair_orders.id')
+                ->where('repair_orders.status', 'completed')
+                ->sum('repair_order_services.line_total');
 
-                $recentOrders = DB::table('repair_orders')
+            $recentOrders = DB::table('repair_orders')
                 ->join('customers', 'repair_orders.customer_id', 'customers.id')
                 ->join('vehicles', 'repair_orders.vehicle_id', 'vehicles.id')
                 ->select(
@@ -73,12 +82,34 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get();
 
-            Log::info("Staff dashboard: {$customerCount} customers, {$openOrders} open orders");
+            $upcomingAppointments = DB::table('appointments')
+                ->join('customers', 'appointments.customer_id', 'customers.id')
+                ->join('vehicles', 'appointments.vehicle_id', 'vehicles.id')
+                ->select(
+                    'appointments.*',
+                    'customers.first_name as cust_first',
+                    'customers.last_name as cust_last',
+                    'vehicles.make',
+                    'vehicles.model',
+                    'vehicles.license_plate',
+                )
+                ->whereIn('appointments.status', ['scheduled', 'confirmed'])
+                ->where('appointment_date', '>=', now()->format('Y-m-d'))
+                ->orderBy('appointment_date')
+                ->orderBy('appointment_time')
+                ->limit(5)
+                ->get();
+
+            Log::info("Staff dashboard: {$customerCount} customers, {$openOrders} open orders, {$appointmentCount} appointments");
         } catch (Throwable $error) {
             Log::error($error->getMessage());
         } finally {
             Log::debug("=================== end staff dashboard ===================");
         }
-        return view('Dashboard.index', compact('customerCount', 'vehicleCount', 'openOrders', 'completedOrders', 'recentOrders'));
+        return view('Dashboard.index', compact(
+            'customerCount', 'vehicleCount', 'openOrders', 'completedOrders',
+            'appointmentCount', 'supplyCount', 'lowStockCount', 'totalRevenue',
+            'recentOrders', 'upcomingAppointments'
+        ));
     }
 }

@@ -4,21 +4,20 @@
 <div class="page-index">
     <div class="page-header">
         <h1 class="page-title">Vehicles</h1>
-        <a href="{{ route('vehicles.create') }}" class="btn-primary-sm">+ Add Vehicle</a>
+        <a href="{{ route('vehicles.create') }}" class="btn-primary-sm">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Add Vehicle
+        </a>
     </div>
 
-    @if ($errors->any())
-        <div class="alert-error">
-            @foreach ($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
-        </div>
+    @if (session('success'))
+        <div class="alert-success">{{ session('success') }}</div>
     @endif
 
     @if (session('role') !== 'customer')
     <form method="GET" action="{{ route('vehicles.index') }}" class="card-filter">
         <div>
-            <label for="customer_id" class="block text-xs font-medium text-gray-600 mb-1">Filter by Customer</label>
+            <label for="customer_id" class="form-label">Filter by Customer</label>
             <select name="customer_id" id="customer_id" class="form-input">
                 <option value="">All Customers</option>
                 @foreach ($customers as $c)
@@ -26,7 +25,10 @@
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="btn-primary-sm">Filter</button>
+        <button type="submit" class="btn-primary-sm">
+                    <i data-lucide="filter" class="w-4 h-4"></i>
+                    Filter
+        </button>
         <a href="{{ route('vehicles.index') }}" class="btn-secondary-sm">Clear</a>
     </form>
     @endif
@@ -35,7 +37,7 @@
         <div class="table-scroll">
             <table class="table-standard">
                 <thead>
-                    <tr class="bg-gray-50 text-left">
+                    <tr>
                         <th class="th-cell">#</th>
                         @if (session('role') !== 'customer')
                         <th class="th-cell">Owner</th>
@@ -49,7 +51,7 @@
                 <tbody class="tbody-divide">
                     @forelse ($vehicles as $v)
                         <tr class="tr-hover">
-                            <td class="td-dim">{{ $v->id }}</td>
+                            <td class="td-cell">{{ $v->id }}</td>
                             @if (session('role') !== 'customer')
                             <td class="td-primary">{{ $v->cust_first }} {{ $v->cust_last }}</td>
                             @endif
@@ -60,13 +62,11 @@
                                 @if (session('role') === 'customer')
                                     <span class="text-xs text-gray-400">—</span>
                                 @else
-                                <div class="flex gap-3">
-                                    <a href="{{ route('vehicles.edit', $v->id) }}" class="link-edit">Edit</a>
-                                    <form action="{{ route('vehicles.destroy', $v->id) }}" method="POST" onsubmit="return confirm('Delete this vehicle?')">
+                                    <a href="{{ route('vehicles.edit', $v->id) }}" class="link-action">Edit</a>
+                                    <form action="{{ route('vehicles.destroy', $v->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this vehicle?')">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="link-delete">Delete</button>
+                                        <button type="submit" class="link-danger">Delete</button>
                                     </form>
-                                </div>
                                 @endif
                             </td>
                         </tr>

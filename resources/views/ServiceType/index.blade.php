@@ -4,44 +4,38 @@
 <div class="page-index">
     <div class="page-header">
         <h1 class="page-title">Service Types</h1>
-        <a href="{{ route('service-types.create') }}" class="btn-primary-sm">+ New Service</a>
+        <a href="{{ route('service-types.create') }}" class="btn-primary-sm">New Service</a>
     </div>
 
-    @if ($errors->any())
-        <div class="alert-error">
-            @foreach ($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
-        </div>
+    @if (session('success'))
+        <div class="alert-success">{{ session('success') }}</div>
     @endif
 
     <div class="card-table">
         <div class="table-scroll">
             <table class="table-standard">
                 <thead>
-                    <tr class="bg-gray-50 text-left">
-                        <th class="th-cell">Name</th>
-                        <th class="th-cell">Description</th>
+                    <tr>
+                        <th class="th-cell">#</th>
+                        <th class="th-cell">Service</th>
                         <th class="th-cell">Book Hours</th>
                         <th class="th-cell">Rate/Hour</th>
                         <th class="th-cell">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="tbody-divide">
-                    @forelse ($serviceTypes as $st)
+                    @forelse ($serviceTypes as $s)
                         <tr class="tr-hover">
-                            <td class="td-primary">{{ $st->name }}</td>
-                            <td class="td-secondary max-w-xs truncate">{{ $st->description }}</td>
-                            <td class="td-secondary">{{ $st->book_hours }}</td>
-                            <td class="td-secondary">${{ number_format($st->rate_per_hour, 2) }}</td>
+                            <td class="td-cell">{{ $s->id }}</td>
+                            <td class="td-primary">{{ $s->name }}</td>
+                            <td class="td-secondary">{{ $s->book_hours }}h</td>
+                            <td class="td-secondary">${{ number_format($s->rate_per_hour, 2) }}</td>
                             <td class="td-cell">
-                                <div class="flex gap-3">
-                                    <a href="{{ route('service-types.edit', $st->id) }}" class="link-edit">Edit</a>
-                                    <form action="{{ route('service-types.destroy', $st->id) }}" method="POST" onsubmit="return confirm('Delete this service type?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="link-delete">Delete</button>
-                                    </form>
-                                </div>
+                                <a href="{{ route('service-types.edit', $s->id) }}" class="link-action">Edit</a>
+                                <form action="{{ route('service-types.destroy', $s->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this service type?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="link-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @empty

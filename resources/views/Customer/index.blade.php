@@ -4,22 +4,21 @@
 <div class="page-index">
     <div class="page-header">
         <h1 class="page-title">Customers</h1>
-        <a href="{{ route('customers.create') }}" class="btn-primary-sm">+ Add Customer</a>
+        <a href="{{ route('customers.create') }}" class="btn-primary-sm">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Add Customer
+        </a>
     </div>
 
-    @if ($errors->any())
-        <div class="alert-error">
-            @foreach ($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
-        </div>
+    @if (session('success'))
+        <div class="alert-success">{{ session('success') }}</div>
     @endif
 
     <div class="card-table">
         <div class="table-scroll">
             <table class="table-standard">
                 <thead>
-                    <tr class="bg-gray-50 text-left">
+                    <tr>
                         <th class="th-cell">#</th>
                         <th class="th-cell">Name</th>
                         <th class="th-cell">Email</th>
@@ -30,18 +29,16 @@
                 <tbody class="tbody-divide">
                     @forelse ($customers as $c)
                         <tr class="tr-hover">
-                            <td class="td-dim">{{ $c->id }}</td>
+                            <td class="td-cell">{{ $c->id }}</td>
                             <td class="td-primary">{{ $c->last_name }}, {{ $c->first_name }}</td>
                             <td class="td-secondary">{{ $c->email ?? '—' }}</td>
                             <td class="td-secondary">{{ $c->phone ?? '—' }}</td>
                             <td class="td-cell">
-                                <div class="flex gap-3">
-                                    <a href="{{ route('customers.edit', $c->id) }}" class="link-edit">Edit</a>
-                                    <form action="{{ route('customers.destroy', $c->id) }}" method="POST" onsubmit="return confirm('Delete this customer?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="link-delete">Delete</button>
-                                    </form>
-                                </div>
+                                <a href="{{ route('customers.edit', $c->id) }}" class="link-action">Edit</a>
+                                <form action="{{ route('customers.destroy', $c->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this customer?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="link-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @empty

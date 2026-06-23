@@ -113,8 +113,11 @@ class ServiceTypeController extends Controller
         try {
             Log::debug("=================== service type delete ===================");
             $serviceType = ServiceType::find($id);
+
             if (!$serviceType) return redirect()->route('service-types.index');
+
             $serviceType->delete();
+
             AuditHelper::log('DELETE', 'service_types', $id, "Service type deleted #{$id}");
             Log::info("Service type deleted: #{$id}");
         } catch (Throwable $error) {

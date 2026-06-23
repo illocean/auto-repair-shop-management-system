@@ -2,13 +2,19 @@
 @section('title', 'Repair Order #' . $order->id)
 @section('content')
 <div class="page-wrapper-md">
-    <div class="page-header mb-6">
+    <div class="page-header">
         <div>
-            <a href="{{ route('repair-orders.index') }}" class="link-back">&larr; Back to Orders</a>
+            <a href="{{ route('repair-orders.index') }}" class="link-back">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Back to Orders
+            </a>
             <h1 class="page-title mt-1">Repair Order #{{ $order->id }}</h1>
         </div>
         @if (session('role') !== 'customer')
-        <a href="{{ route('repair-orders.edit', $order->id) }}" class="btn-primary-sm">Edit</a>
+        <a href="{{ route('repair-orders.edit', $order->id) }}" class="btn-primary-sm">
+            <i data-lucide="pencil" class="w-4 h-4"></i>
+            Edit
+        </a>
         @endif
     </div>
 
@@ -20,51 +26,79 @@
         </div>
     @endif
 
-    <div class="card-stat">
-        <div class="grid-2-responsive">
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</p>
-                <p class="font-medium mt-1">{{ $order->cust_first }} {{ $order->cust_last }}</p>
+    <div class="detail-grid">
+        <div class="card">
+            <div class="card-header">
+                <i data-lucide="user" class="w-4 h-4 text-indigo-500"></i>
+                <h2 class="card-title">Customer &amp; Vehicle</h2>
             </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</p>
-                <p class="font-medium mt-1">{{ $order->year }} {{ $order->make }} {{ $order->model }} ({{ $order->license_plate ?? 'no plate' }})</p>
+            <div class="card-body">
+                <div class="detail-section">
+                    <div class="detail-row">
+                        <span class="detail-label">Customer</span>
+                        <span class="detail-value">{{ $order->cust_first }} {{ $order->cust_last }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Vehicle</span>
+                        <span class="detail-value">{{ $order->year }} {{ $order->make }} {{ $order->model }} ({{ $order->license_plate ?? 'no plate' }})</span>
+                    </div>
+                </div>
             </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Service Advisor</p>
-                <p class="font-medium mt-1">{{ $order->service_advisor_name }}</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <i data-lucide="clipboard-list" class="w-4 h-4 text-indigo-500"></i>
+                <h2 class="card-title">Order Details</h2>
             </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Order Date</p>
-                <p class="font-medium mt-1">{{ $order->order_date }}</p>
-            </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Status</p>
-                <span class="badge-pill mt-1
-                    @if ($order->status === 'open') badge-yellow
-                    @elseif($order->status === 'in_progress') badge-gray
-                    @elseif($order->status === 'completed') badge-green
-                    @else badge-gray @endif">
-                    {{ str_replace('_', ' ', ucfirst($order->status)) }}
-                </span>
+            <div class="card-body">
+                <div class="detail-section">
+                    <div class="detail-row">
+                        <span class="detail-label">Service Advisor</span>
+                        <span class="detail-value">{{ $order->service_advisor_name }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Order Date</span>
+                        <span class="detail-value">{{ $order->order_date }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status</span>
+                        <span class="badge-pill
+                            @if ($order->status === 'open') badge-yellow
+                            @elseif($order->status === 'in_progress') badge-gray
+                            @elseif($order->status === 'completed') badge-green
+                            @else badge-gray @endif">
+                            <svg class="status-dot w-3 h-3" fill="currentColor" viewBox="0 0 8 8">
+                                <circle cx="4" cy="4" r="3"/>
+                            </svg>
+                            {{ str_replace('_', ' ', ucfirst($order->status)) }}
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
 
         @if ($order->notes)
-        <div class="mt-4 pt-4 border-t border-gray-100">
-            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</p>
-            <p class="text-sm text-gray-700 mt-1">{{ $order->notes }}</p>
+        <div class="card">
+            <div class="card-header">
+                <i data-lucide="message-square" class="w-4 h-4 text-indigo-500"></i>
+                <h2 class="card-title">Notes</h2>
+            </div>
+            <div class="card-body">
+                <p class="text-sm text-gray-700">{{ $order->notes }}</p>
+            </div>
         </div>
         @endif
     </div>
 
-    <div class="card-table mt-6">
-        <div class="px-5 py-4 border-b border-gray-100">
-            <h2 class="font-semibold text-gray-800">Services</h2>
+    <div class="card-table">
+        <div class="card-table-header">
+            <i data-lucide="wrench" class="w-5 h-5 text-gray-400"></i>
+            <h2 class="card-table-title">Services</h2>
         </div>
         <table class="table-standard">
             <thead>
-                <tr class="bg-gray-50 text-left">
+                <tr>
                     <th class="th-cell">Service</th>
                     <th class="th-cell">Hours</th>
                     <th class="th-cell">Rate</th>

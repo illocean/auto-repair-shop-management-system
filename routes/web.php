@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RepairOrderController;
 use App\Http\Controllers\ServiceTypeController;
+use App\Http\Controllers\SupplyController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +32,12 @@ Route::middleware('auth.session')->group(function () {
     Route::get('repair-orders/{customerId}/vehicles', [RepairOrderController::class, 'getByCustomer'])->name('repair-orders.vehicles');
     Route::get('repair-orders/{id}/remove-service/{serviceId}', [RepairOrderController::class, 'removeService'])->name('repair-orders.remove-service');
     Route::resource('service-types', ServiceTypeController::class);
+
+    Route::get('appointments/calendar', [AppointmentController::class, 'calendar'])->name('appointments.calendar');
+    Route::get('appointments/{customerId}/vehicles', [AppointmentController::class, 'getByCustomer'])->name('appointments.vehicles');
+    Route::resource('appointments', AppointmentController::class);
+
+    Route::resource('supplies', SupplyController::class);
 
     Route::resource('users', UsersController::class);
     Route::get('/audit', [AuditController::class, 'index'])->name('audit.index');

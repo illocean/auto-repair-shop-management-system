@@ -18,6 +18,7 @@
 - [Getting Started](#getting-started)
 - [Default Seeded Accounts](#default-seeded-accounts)
 - [Permission Matrix](#permission-matrix)
+- [Demo Data](#demo-data)
 - [Project Documents](#project-documents)
 - [License](#license)
 
@@ -27,7 +28,7 @@
 
 > *"You are designing a database for an automobile repair shop. When a customer brings in a vehicle, a service advisor will write up a repair order. This order will identify the customer and the vehicle, along with the date of service and the name of the advisor. A vehicle might need several different types of service in a single visit. These could include oil change, lubrication, rotate tires, and so on. Each type of service is billed at a pre-determined number of hours work, regardless of the actual time spent by the technician. Each type of service also has a flat book rate of dollars-per-hour that is charged."*
 
-The original brief is preserved at `docs/instruction.txt`. The original brief has been preserved verbatim in the full project paper at `docs/IM-INDIVIDUAL_PROJECT_NO3.pdf`.
+The original brief is preserved verbatim in the full project paper at `docs/IM-INDIVIDUAL_PROJECT_NO3.pdf`.
 
 ---
 
@@ -40,8 +41,8 @@ The original brief is preserved at `docs/instruction.txt`. The original brief ha
 | 5.1.1 — Any frontend may be used | Done | Blade + Tailwind CSS 4 via Vite |
 | 5.1.1 — Everything must use MySQL | Done | All queries routed through the MySQL connection |
 | 5.2.a — Login form with authentication | Done | `AuthController` (session guard, bcrypt) |
-| 5.2.b — CRUD maintenance modules | Done | `customers`, `vehicles`, `service_types`, `repair_orders`, `users` — full resource controllers |
-| 5.2.c — Additional features | Done | Audit trail, role-based dashboard, status machine, multi-service orders |
+| 5.2.b — CRUD maintenance modules | Done | `customers`, `vehicles`, `service_types`, `repair_orders`, `appointments`, `supplies`, `users` — full resource controllers |
+| 5.2.c — Additional features | Done | Audit trail, role-based dashboard, status machine, multi-service orders, appointment scheduling, supply inventory tracking |
 | 5.2.d — Audit trail | Done | `audit_logs` table + `Auditable` Eloquent trait + `AuditHelper` |
 | 5.2.e — Role permissions | Done | 4 roles (admin, manager, staff, customer) + `permissions` + `permission_role` |
 
@@ -53,12 +54,15 @@ The original brief is preserved at `docs/instruction.txt`. The original brief ha
 - Role-based access control with 4 roles and hierarchical permission enforcement
 - Repair Order workflow with multi-service orders and auto-calculated `line_total = book_hours * rate_per_hour`
 - Service catalog with pre-priced service types (`book_hours`, `rate_per_hour`)
+- Appointment scheduling with status tracking (scheduled, confirmed, completed, cancelled)
+- Supply inventory management with low-stock threshold alerts
 - Customer and Vehicle management with full CRUD and cascading relationships
 - Employee and User management, restricted to admin/manager with role-hierarchy enforcement
 - Role-aware dashboard with distinct UI for staff and customer logins
 - Real-time audit trail — every model event (created, updated, deleted) is auto-logged
 - Status machine enforcing `open -> in_progress -> completed` transitions with `cancelled` allowed from any non-completed state
 - User type distinction: staff users (admin, manager, staff roles) created by admins/managers, customer users register publicly
+- Calendar view for appointments with customer/vehicle filtering
 
 ---
 
@@ -71,17 +75,19 @@ Browser
   -> HTTP
 routes/web.php
   -> Session Auth Middleware
-  -> Controllers (Auth, Dashboard, Customer, Vehicle, RepairOrder, ServiceType, Users, Audit)
+  -> Controllers (Auth, Dashboard, Customer, Vehicle, RepairOrder,
+                  ServiceType, Appointment, Supply, Users, Audit)
        |                              |
        | compact() data               | DB::table() queries
        v                              v
 Blade Views                      MySQL - im_indivproject
   Template, Auth, Dashboard       RBAC:          users, roles, role_user,
   Customer, Vehicle, RepairOrder                permissions, permission_role
-  ServiceType, User, Audit        Core Business: customers, vehicles,
-                                   service_types, repair_orders,
-                                   repair_order_services
-                                 Audit:          audit_logs
+  ServiceType, Appointment,       Core Business: customers, vehicles,
+  Supply, User, Audit                           service_types, repair_orders,
+                                                 repair_order_services,
+                                                 appointments, supplies
+                                  Audit:          audit_logs
 ```
 
 Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder + Eloquent
@@ -90,12 +96,12 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 
 ## Database Schema
 
-18 tables total (6 Laravel system + 12 custom). Full schema diagram: `docs/ERD MODELS/database-schema.drawio` and `docs/ERD MODELS/PhysicalModel erd.png`.
+20 tables total (6 Laravel system + 14 custom). Full schema diagram: `docs/ERD MODELS/database-schema.drawio` and `docs/ERD MODELS/PhysicalModel erd.png`.
 
 ### Legend
 - `*` = NOT NULL
 - `PK` = Primary Key, `FK` = Foreign Key, `UQ` = Unique
-- Purple = RBAC, Blue = Core business, Yellow = Orders/Services, Red = Audit
+- Purple = RBAC, Blue = Core business, Yellow = Orders/Services, Green = Scheduling/Inventory, Red = Audit
 
 ### Core Business Entities
 
@@ -158,6 +164,31 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | line_total * | decimal | auto-calculated as book_hours * rate_per_hour |
 | created_at, updated_at | timestamps | |
 
+#### appointments
+| Column | Type | Notes |
+|--------|------|-------|
+| id | PK | |
+| customer_id * | FK -> customers | |
+| vehicle_id * | FK -> vehicles | |
+| appointment_date * | date | |
+| appointment_time * | time | |
+| status | varchar | `scheduled`, `confirmed`, `completed`, `cancelled` |
+| notes | text | |
+| created_by | FK -> users | |
+| created_at, updated_at | timestamps | |
+
+#### supplies
+| Column | Type | Notes |
+|--------|------|-------|
+| id | PK | |
+| name * | varchar | |
+| description | text | |
+| quantity * | integer | current stock count |
+| unit * | varchar | e.g. piece, quart, gallon, set |
+| unit_price * | decimal | cost per unit |
+| low_stock_threshold * | integer | alert when quantity <= this value |
+| created_at, updated_at | timestamps | |
+
 ### RBAC Tables
 
 #### users
@@ -218,6 +249,16 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 ### Advisor Assignment
 - When a staff user creates a repair order, `service_advisor_name` auto-fills from `session('first_name') . ' ' . session('last_name')`
 
+### Appointment Lifecycle
+- Appointments start as `scheduled`, can be `confirmed` by staff, then `completed` after service
+- `cancelled` is allowed from `scheduled` or `confirmed` states
+- The calendar view shows all appointments grouped by date with customer and vehicle details
+
+### Supply Inventory
+- Each supply item tracks `quantity` and a `low_stock_threshold`
+- Items where `quantity <= low_stock_threshold` are flagged as low stock on the dashboard
+- Staff can manage supply quantities as items are used or restocked
+
 ### User Type Distinction
 - Public registration creates a `user_type = 'customer'` user with the `customer` role
 - Staff accounts are created only by admins/managers via `/users`
@@ -259,7 +300,8 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 │   ├── Helpers/
 │   │   └── AuditHelper.php                # Centralized auth-event logger
 │   ├── Http/
-│   │   ├── Controllers/                   # 8 controllers
+│   │   ├── Controllers/                   # 11 controllers
+│   │   │   ├── AppointmentController.php
 │   │   │   ├── AuditController.php
 │   │   │   ├── AuthController.php
 │   │   │   ├── Controller.php
@@ -267,6 +309,7 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 │   │   │   ├── DashboardController.php
 │   │   │   ├── RepairOrderController.php
 │   │   │   ├── ServiceTypeController.php
+│   │   │   ├── SupplyController.php
 │   │   │   ├── UsersController.php
 │   │   │   └── VehicleController.php
 │   │   ├── Middleware/                    # auth.session
@@ -285,8 +328,8 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 ├── config/                                # 10 config files
 ├── database/
 │   ├── factories/
-│   ├── migrations/                        # 16 migrations
-│   └── seeders/                           # 8 seeders
+│   ├── migrations/                        # 18 migrations
+│   └── seeders/                           # 9 seeders
 ├── docs/
 │   ├── ERD MODELS/                        # Conceptual, Logical, Physical, Schema
 │   ├── auto-repair-shop-db-design.drawio
@@ -301,13 +344,15 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 ├── resources/
 │   ├── css/app.css
 │   ├── js/app.js
-│   └── views/                             # 24 Blade templates
+│   └── views/                             # Blade templates
+│       ├── Appointment/
 │       ├── Audit/
 │       ├── Auth/
 │       ├── Customer/
 │       ├── Dashboard/
 │       ├── RepairOrder/
 │       ├── ServiceType/
+│       ├── Supply/
 │       ├── Template/                      # Layout, header, footer
 │       ├── User/
 │       └── Vehicle/
@@ -377,12 +422,15 @@ DB_PASSWORD=1234
 
 ## Default Seeded Accounts
 
+Run `php artisan migrate --seed` to populate the database with these accounts:
+
 | Role | Email | Password | Capabilities |
 |------|-------|----------|--------------|
-| Admin | admin@example.com | password | Full access |
-| Manager | manager@example.com | password | CRUD except user deletion; can assign staff/manager roles |
-| Staff | staff@example.com | password | Service advisor: create/read/update customers, vehicles, orders |
-| Customer | customer@example.com | password | Read own vehicles and orders |
+| Admin | admin@system.local | admin123 | Full access |
+| Manager | juan@repairshop.local | password | CRUD except user deletion; can assign staff/manager roles |
+| Manager | maria@repairshop.local | password | CRUD except user deletion; can assign staff/manager roles |
+| Staff | pedro@repairshop.local | password | Service advisor: create/read/update customers, vehicles, orders |
+| Staff | ana@repairshop.local | password | Service advisor: create/read/update customers, vehicles, orders |
 
 Change all default credentials before deploying to production.
 
@@ -398,8 +446,24 @@ Change all default credentials before deploying to production.
 | Manage vehicles | Yes | Yes | Yes | self only |
 | Manage service types | Yes | Yes | read | No |
 | Create repair orders | Yes | Yes | Yes | No |
+| Manage appointments | Yes | Yes | Yes | self only |
+| Manage supplies | Yes | Yes | Yes | read |
 | View audit log | Yes | Yes | No | No |
 | Public registration | — | — | — | Yes (self) |
+
+---
+
+## Demo Data
+
+Running `php artisan migrate --seed` also populates the database with demo data:
+
+- **3 customers** with 4 vehicles (Toyota Vios, Honda Civic, Mitsubishi Montero, Ford Ranger)
+- **8 service types** (Oil Change, Lubrication, Tire Rotation, Brake Inspection, Air Filter, Battery, Coolant Flush, Transmission Service)
+- **10 repair orders** across all statuses (2 open, 2 in-progress, 4 completed, 2 cancelled) with 20 service line items
+- **6 appointments** (2 past, 4 upcoming in the next 10 days)
+- **11 supplies** with inventory tracking (3 items flagged as low stock)
+
+The staff dashboard immediately shows live metrics, pipeline data, upcoming appointments, and recent orders after seeding.
 
 ---
 
