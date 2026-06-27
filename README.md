@@ -1,11 +1,11 @@
 # Auto Repair Shop Management System
 
-> **Information Management — Individual Project No. 3**
-> A full-stack **Laravel 13** + **MySQL** web application that models the real-world workflow of an automobile repair shop, built around a published case study.
+**Information Management -- Individual Project No. 3.** A full-stack Laravel 13 + MySQL web application that models the real-world workflow of an automobile repair shop, built around a published case study.
 
 ---
 
 ## Table of Contents
+
 - [Case Study (Source of Truth)](#case-study-source-of-truth)
 - [Course Requirements Met](#course-requirements-met)
 - [Features](#features)
@@ -26,7 +26,7 @@
 
 ## Case Study (Source of Truth)
 
-> *"You are designing a database for an automobile repair shop. When a customer brings in a vehicle, a service advisor will write up a repair order. This order will identify the customer and the vehicle, along with the date of service and the name of the advisor. A vehicle might need several different types of service in a single visit. These could include oil change, lubrication, rotate tires, and so on. Each type of service is billed at a pre-determined number of hours work, regardless of the actual time spent by the technician. Each type of service also has a flat book rate of dollars-per-hour that is charged."*
+> You are designing a database for an automobile repair shop. When a customer brings in a vehicle, a service advisor will write up a repair order. This order will identify the customer and the vehicle, along with the date of service and the name of the advisor. A vehicle might need several different types of service in a single visit. These could include oil change, lubrication, rotate tires, and so on. Each type of service is billed at a pre-determined number of hours work, regardless of the actual time spent by the technician. Each type of service also has a flat book rate of dollars-per-hour that is charged.
 
 The original brief is preserved verbatim in the full project paper at `docs/IM-INDIVIDUAL_PROJECT_NO3.pdf`.
 
@@ -35,16 +35,16 @@ The original brief is preserved verbatim in the full project paper at `docs/IM-I
 ## Course Requirements Met
 
 | Requirement | Status | Implementation |
-|-------------|:---:|----------------|
-| 5.1 — MySQL database | Done | `config/database.php` uses `mysql` driver, DB `im_indivproject` |
-| 5.1.1 — Integrated with PHP-Laravel | Done | Laravel 13.8 framework |
-| 5.1.1 — Any frontend may be used | Done | Blade + Tailwind CSS 4 via Vite |
-| 5.1.1 — Everything must use MySQL | Done | All queries routed through the MySQL connection |
-| 5.2.a — Login form with authentication | Done | `AuthController` (session guard, bcrypt) |
-| 5.2.b — CRUD maintenance modules | Done | `customers`, `vehicles`, `service_types`, `repair_orders`, `appointments`, `supplies`, `users` — full resource controllers |
-| 5.2.c — Additional features | Done | Audit trail, role-based dashboard, status machine, multi-service orders, appointment scheduling, supply inventory tracking |
-| 5.2.d — Audit trail | Done | `audit_logs` table + `Auditable` Eloquent trait + `AuditHelper` |
-| 5.2.e — Role permissions | Done | 4 roles (admin, manager, staff, customer) + `permissions` + `permission_role` |
+|-------------|:------:|----------------|
+| 5.1 -- MySQL database | Done | `config/database.php` uses `mysql` driver, database `im_indivproject` |
+| 5.1.1 -- Integrated with PHP-Laravel | Done | Laravel 13.8 framework |
+| 5.1.1 -- Any frontend may be used | Done | Blade + Tailwind CSS 4 via Vite |
+| 5.1.1 -- Everything must use MySQL | Done | All queries routed through the MySQL connection |
+| 5.2.a -- Login form with authentication | Done | `AuthController` (session guard, bcrypt) |
+| 5.2.b -- CRUD maintenance modules | Done | Customers, vehicles, service_types, repair_orders, appointments, supplies, users -- full resource controllers |
+| 5.2.c -- Additional features | Done | Audit trail, role-based dashboard, status machine, multi-service orders, appointment scheduling, supply inventory tracking |
+| 5.2.d -- Audit trail | Done | `audit_logs` table + `Auditable` Eloquent trait + `AuditHelper` |
+| 5.2.e -- Role permissions | Done | 4 roles (admin, manager, staff, customer) + `permissions` + `permission_role` |
 
 ---
 
@@ -52,17 +52,17 @@ The original brief is preserved verbatim in the full project paper at `docs/IM-I
 
 - Session-based authentication (login, register, logout, bcrypt password hashing)
 - Role-based access control with 4 roles and hierarchical permission enforcement
-- Repair Order workflow with multi-service orders and auto-calculated `line_total = book_hours * rate_per_hour`
+- Repair Order workflow with multi-service orders and auto-calculated line total (`book_hours * rate_per_hour`)
 - Service catalog with pre-priced service types (`book_hours`, `rate_per_hour`)
 - Appointment scheduling with status tracking (scheduled, confirmed, completed, cancelled)
 - Supply inventory management with low-stock threshold alerts
 - Customer and Vehicle management with full CRUD and cascading relationships
 - Employee and User management, restricted to admin/manager with role-hierarchy enforcement
 - Role-aware dashboard with distinct UI for staff and customer logins
-- Real-time audit trail — every model event (created, updated, deleted) is auto-logged
+- Real-time audit trail -- every model event (created, updated, deleted) is auto-logged
 - Status machine enforcing `open -> in_progress -> completed` transitions with `cancelled` allowed from any non-completed state
-- User type distinction: staff users (admin, manager, staff roles) created by admins/managers, customer users register publicly
-- Calendar view for appointments with customer/vehicle filtering
+- User type distinction: staff users (admin, manager, staff roles) created by admins or managers; customer users register publicly
+- Calendar view for appointments with customer and vehicle filtering
 
 ---
 
@@ -99,6 +99,7 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 20 tables total (6 Laravel system + 14 custom). Full schema diagram: `docs/ERD MODELS/database-schema.drawio` and `docs/ERD MODELS/PhysicalModel erd.png`.
 
 ### Legend
+
 - `*` = NOT NULL
 - `PK` = Primary Key, `FK` = Foreign Key, `UQ` = Unique
 - Purple = RBAC, Blue = Core business, Yellow = Orders/Services, Green = Scheduling/Inventory, Red = Audit
@@ -106,6 +107,7 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 ### Core Business Entities
 
 #### customers
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | PK | |
@@ -118,10 +120,11 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | created_at, updated_at | timestamps | |
 
 #### vehicles
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | PK | |
-| customer_id * | FK -> customers | one customer -> many vehicles |
+| customer_id * | FK -> customers | one customer to many vehicles |
 | make * | varchar | |
 | model * | varchar | |
 | year | year | |
@@ -130,6 +133,7 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | created_at, updated_at | timestamps | |
 
 #### service_types (catalog)
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | PK | |
@@ -140,6 +144,7 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | created_at, updated_at | timestamps | |
 
 #### repair_orders (core business entity)
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | PK | |
@@ -154,6 +159,7 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | created_at, updated_at | timestamps | |
 
 #### repair_order_services (line items)
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | PK | |
@@ -165,6 +171,7 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | created_at, updated_at | timestamps | |
 
 #### appointments
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | PK | |
@@ -178,6 +185,7 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | created_at, updated_at | timestamps | |
 
 #### supplies
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | PK | |
@@ -186,33 +194,39 @@ Stack: Laravel 13, PHP 8.3+, Tailwind CSS v4, MySQL, Session Auth, Query Builder
 | quantity * | integer | current stock count |
 | unit * | varchar | e.g. piece, quart, gallon, set |
 | unit_price * | decimal | cost per unit |
-| low_stock_threshold * | integer | alert when quantity <= this value |
+| low_stock_threshold * | integer | alert when quantity is less than or equal to this value |
 | created_at, updated_at | timestamps | |
 
 ### RBAC Tables
 
 #### users
+
 `id (PK), first_name *, last_name *, email (UQ) *, password *, is_active (default 1), last_login, remember_token, user_type (enum: customer/staff), timestamps`
 
 #### roles
+
 `id (PK), name (UQ) *, display_name *, timestamps`
 Seeded: admin, manager, staff, customer
 
 #### role_user (pivot)
-`user_id (PK,FK), role_id (PK,FK)`
+
+`user_id (PK, FK), role_id (PK, FK)`
 
 #### permissions
+
 `id (PK), code (UQ) *, description, module *, timestamps`
 
 #### permission_role (pivot)
-`permission_id (PK,FK), role_id (PK,FK)`
+
+`permission_id (PK, FK), role_id (PK, FK)`
 
 ### Audit Log
 
 #### audit_logs
+
 `id (PK), user_id (FK), username, action *, entity_type *, entity_id, summary, old_values (JSON), new_values (JSON), ip_address, user_agent, created_at`
 
-Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait, plus login/logout events via `AuditHelper::logAuth()`.
+Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait, plus login and logout events via `AuditHelper::logAuth()`.
 
 ---
 
@@ -221,17 +235,18 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 | Diagram | Source | Preview |
 |---------|--------|---------|
 | Conceptual ERD | `docs/ERD MODELS/architecture.drawio` | `docs/ERD MODELS/conceptual model erd.png` |
-| Logical ERD | — | `docs/ERD MODELS/logical model erd.png` |
-| Database Schema | `docs/ERD MODELS/database-schema.drawio` | — |
+| Logical ERD | -- | `docs/ERD MODELS/logical model erd.png` |
+| Database Schema | `docs/ERD MODELS/database-schema.drawio` | -- |
 | Physical Model (MySQL Workbench) | `docs/ERD MODELS/PhysicalModel.mwb` | `docs/ERD MODELS/PhysicalModel erd.png` |
 | High-level DB design | `docs/auto-repair-shop-db-design.drawio` | `docs/drawio.png`, `docs/logical.png` |
-| DrawIO XML | `docs/drawio.xml` | — |
+| DrawIO XML | `docs/drawio.xml` | -- |
 
 ---
 
 ## Business Rules Enforced
 
 ### Pricing Flow
+
 1. Service advisor creates a repair order.
 2. Selects the customer, then that customer's vehicle.
 3. Adds services from the `service_types` catalog.
@@ -241,37 +256,44 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
    - `line_total` as `book_hours * rate_per_hour`
 
 ### Status Machine
+
 - Valid transitions: `open -> in_progress -> completed`
 - `cancelled` is allowed from any non-completed state
 - Backwards transitions (e.g. `completed -> open`) are forbidden
 - Enforced in `RepairOrderController@update`
 
 ### Advisor Assignment
-- When a staff user creates a repair order, `service_advisor_name` auto-fills from `session('first_name') . ' ' . session('last_name')`
+
+- When a staff user creates a repair order, `service_advisor_name` auto-fills from session values
 
 ### Appointment Lifecycle
+
 - Appointments start as `scheduled`, can be `confirmed` by staff, then `completed` after service
 - `cancelled` is allowed from `scheduled` or `confirmed` states
 - The calendar view shows all appointments grouped by date with customer and vehicle details
 
 ### Supply Inventory
+
 - Each supply item tracks `quantity` and a `low_stock_threshold`
 - Items where `quantity <= low_stock_threshold` are flagged as low stock on the dashboard
 - Staff can manage supply quantities as items are used or restocked
 
 ### User Type Distinction
+
 - Public registration creates a `user_type = 'customer'` user with the `customer` role
-- Staff accounts are created only by admins/managers via `/users`
+- Staff accounts are created only by admins or managers via `/users`
 - `customers.user_id` (nullable FK) links a customer's login to their customer record
 
 ### Vehicle-Customer Constraint
+
 - A vehicle must belong to the customer selected on the repair order
 - Enforced in the create/edit form: the vehicle dropdown is filtered to the selected customer's vehicles
 
 ### Audit Logging
-- Every `created`, `updated`, `deleted` Eloquent event is auto-logged via the `Auditable` trait on: `Customer`, `Vehicle`, `ServiceType`, `RepairOrder`, `RepairOrderService`, `User`
-- Updates record `old_values` (JSON) and `new_values` (JSON, changed attributes only)
-- Login/logout events are recorded via `AuditHelper::logAuth()`
+
+- Every `created`, `updated`, `deleted` Eloquent event is auto-logged via the `Auditable` trait
+- Updates record `old_values` (JSON) and `new_values` (JSON)
+- Login and logout events are recorded via `AuditHelper::logAuth()`
 
 ---
 
@@ -283,12 +305,12 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 | Language | PHP 8.3+ |
 | Database | MySQL 8 (database name `im_indivproject`) |
 | Authentication | Laravel session guard (bcrypt, `BCRYPT_ROUNDS=12`) |
-| ORM | Eloquent (models) + raw Query Builder (`DB::table()`) for legacy controllers |
-| Frontend | Blade templates, Tailwind CSS 4, vanilla JS |
+| ORM | Eloquent (models) + Query Builder for legacy controllers |
+| Frontend | Blade templates, Tailwind CSS 4, vanilla JavaScript |
 | Build tool | Vite 8 |
 | Testing | PHPUnit 12 |
 | Code style | Laravel Pint |
-| Diagrams | DrawIO, MySQL Workbench (`.mwb`) |
+| Diagrams | DrawIO, MySQL Workbench |
 
 ---
 
@@ -298,24 +320,13 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 .
 ├── app/
 │   ├── Helpers/
-│   │   └── AuditHelper.php                # Centralized auth-event logger
+│   │   └── AuditHelper.php                Centralized auth-event logger
 │   ├── Http/
-│   │   ├── Controllers/                   # 11 controllers
-│   │   │   ├── AppointmentController.php
-│   │   │   ├── AuditController.php
-│   │   │   ├── AuthController.php
-│   │   │   ├── Controller.php
-│   │   │   ├── CustomerController.php
-│   │   │   ├── DashboardController.php
-│   │   │   ├── RepairOrderController.php
-│   │   │   ├── ServiceTypeController.php
-│   │   │   ├── SupplyController.php
-│   │   │   ├── UsersController.php
-│   │   │   └── VehicleController.php
-│   │   ├── Middleware/                    # auth.session
-│   │   └── Requests/                      # 6 form-request validators
+│   │   ├── Controllers/                   11 controllers
+│   │   ├── Middleware/
+│   │   └── Requests/                      6 form-request validators
 │   ├── Models/
-│   │   ├── Traits/Auditable.php           # Auto-logs model events
+│   │   ├── Traits/Auditable.php           Auto-logs model events
 │   │   ├── Customer.php
 │   │   ├── RepairOrder.php
 │   │   ├── RepairOrderService.php
@@ -325,13 +336,13 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 │   │   └── Vehicle.php
 │   └── Providers/
 ├── bootstrap/
-├── config/                                # 10 config files
+├── config/                                10 config files
 ├── database/
 │   ├── factories/
-│   ├── migrations/                        # 18 migrations
-│   └── seeders/                           # 9 seeders
+│   ├── migrations/                        18 migrations
+│   └── seeders/                           9 seeders
 ├── docs/
-│   ├── ERD MODELS/                        # Conceptual, Logical, Physical, Schema
+│   ├── ERD MODELS/                        Conceptual, Logical, Physical, Schema
 │   ├── auto-repair-shop-db-design.drawio
 │   ├── drawio.png
 │   ├── drawio.xml
@@ -339,12 +350,12 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 │   ├── IM-INDIVIDUAL_PROJECT_NO3.pdf
 │   └── logical.png
 ├── public/
-│   ├── build/                             # Compiled Vite assets
+│   ├── build/                             Compiled Vite assets
 │   └── index.php
 ├── resources/
 │   ├── css/app.css
 │   ├── js/app.js
-│   └── views/                             # Blade templates
+│   └── views/                             Blade templates
 │       ├── Appointment/
 │       ├── Audit/
 │       ├── Auth/
@@ -353,12 +364,12 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 │       ├── RepairOrder/
 │       ├── ServiceType/
 │       ├── Supply/
-│       ├── Template/                      # Layout, header, footer
+│       ├── Template/                      Layout, header, footer
 │       ├── User/
 │       └── Vehicle/
 ├── routes/
 │   ├── console.php
-│   └── web.php                            # 2 guest + 11 auth routes
+│   └── web.php                            2 guest + 11 authenticated routes
 ├── storage/
 └── tests/
     ├── Feature/
@@ -370,6 +381,7 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 ## Getting Started
 
 ### Prerequisites
+
 - PHP 8.3 or higher
 - Composer 2
 - Node.js 20+ and npm
@@ -379,13 +391,13 @@ Logs every `created`, `updated`, `deleted` model event via the `Auditable` trait
 
 ```bash
 # 1. Clone the repository
-git clone <repository-url>
+git clone https://github.com/illocean/auto-repair-shop-management-system.git
 cd auto-repair-shop-management-system
 
 # 2. Install PHP dependencies
 composer install
 
-# 3. Install JS dependencies
+# 3. Install JavaScript dependencies
 npm install
 
 # 4. Copy environment file and generate an app key
@@ -401,13 +413,13 @@ npm run build
 # 7. Serve the application
 php artisan serve          # http://127.0.0.1:8000
 
-# In another terminal, for HMR during development:
+# In another terminal, for hot module replacement during development:
 npm run dev
 ```
 
 ### Database Configuration
 
-The default `.env` expects:
+The default `.env` expects the following MySQL connection settings:
 
 ```
 DB_CONNECTION=mysql
@@ -427,12 +439,12 @@ Run `php artisan migrate --seed` to populate the database with these accounts:
 | Role | Email | Password | Capabilities |
 |------|-------|----------|--------------|
 | Admin | admin@system.local | admin123 | Full access |
-| Manager | juan@repairshop.local | password | CRUD except user deletion; can assign staff/manager roles |
-| Manager | maria@repairshop.local | password | CRUD except user deletion; can assign staff/manager roles |
-| Staff | pedro@repairshop.local | password | Service advisor: create/read/update customers, vehicles, orders |
-| Staff | ana@repairshop.local | password | Service advisor: create/read/update customers, vehicles, orders |
+| Manager | juan@repairshop.local | password | CRUD except user deletion; can assign staff and manager roles |
+| Manager | maria@repairshop.local | password | CRUD except user deletion; can assign staff and manager roles |
+| Staff | pedro@repairshop.local | password | Service advisor: create, read, update customers, vehicles, and orders |
+| Staff | ana@repairshop.local | password | Service advisor: create, read, update customers, vehicles, and orders |
 
-Change all default credentials before deploying to production.
+All default credentials should be changed before deploying to production.
 
 ---
 
@@ -442,28 +454,28 @@ Change all default credentials before deploying to production.
 |--------|:-----:|:-------:|:-----:|:--------:|
 | Manage users (CRUD) | Yes | Yes (cannot assign admin) | No | No |
 | Assign admin role | Yes | No | No | No |
-| Manage customers | Yes | Yes | Yes | self only |
-| Manage vehicles | Yes | Yes | Yes | self only |
-| Manage service types | Yes | Yes | read | No |
+| Manage customers | Yes | Yes | Yes | Self only |
+| Manage vehicles | Yes | Yes | Yes | Self only |
+| Manage service types | Yes | Yes | Read | No |
 | Create repair orders | Yes | Yes | Yes | No |
-| Manage appointments | Yes | Yes | Yes | self only |
-| Manage supplies | Yes | Yes | Yes | read |
+| Manage appointments | Yes | Yes | Yes | Self only |
+| Manage supplies | Yes | Yes | Yes | Read |
 | View audit log | Yes | Yes | No | No |
-| Public registration | — | — | — | Yes (self) |
+| Public registration | -- | -- | -- | Yes (self) |
 
 ---
 
 ## Demo Data
 
-Running `php artisan migrate --seed` also populates the database with demo data:
+Running `php artisan migrate --seed` populates the database with realistic demo data:
 
-- **3 customers** with 4 vehicles (Toyota Vios, Honda Civic, Mitsubishi Montero, Ford Ranger)
-- **8 service types** (Oil Change, Lubrication, Tire Rotation, Brake Inspection, Air Filter, Battery, Coolant Flush, Transmission Service)
-- **10 repair orders** across all statuses (2 open, 2 in-progress, 4 completed, 2 cancelled) with 20 service line items
-- **6 appointments** (2 past, 4 upcoming in the next 10 days)
-- **11 supplies** with inventory tracking (3 items flagged as low stock)
+- 3 customers with 4 vehicles (Toyota Vios, Honda Civic, Mitsubishi Montero, Ford Ranger)
+- 8 service types (Oil Change, Lubrication, Tire Rotation, Brake Inspection, Air Filter, Battery, Coolant Flush, Transmission Service)
+- 10 repair orders across all statuses (2 open, 2 in-progress, 4 completed, 2 cancelled) with 20 service line items
+- 6 appointments (2 past, 4 upcoming within the next 10 days)
+- 11 supplies with inventory tracking (3 items flagged as low stock)
 
-The staff dashboard immediately shows live metrics, pipeline data, upcoming appointments, and recent orders after seeding.
+The staff dashboard immediately displays live metrics, pipeline data, upcoming appointments, and recent orders after seeding.
 
 ---
 
@@ -489,4 +501,4 @@ The staff dashboard immediately shows live metrics, pipeline data, upcoming appo
 
 ## License
 
-This project is open-sourced under the [MIT license](https://opensource.org/licenses/MIT). The Laravel framework is also MIT-licensed.
+This project is open-sourced under the MIT License. The Laravel framework is also MIT-licensed.
